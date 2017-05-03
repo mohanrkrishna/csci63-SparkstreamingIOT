@@ -7,7 +7,7 @@ import sys
 import zipfile
 import pandas as pd
 
-producer = KafkaProducer(bootstrap_servers='localhost:9092')
+producer = KafkaProducer(bootstrap_servers='ec2-54-146-160-235.compute-1.amazonaws.com:9092')
 topic = 'airline1'
 
 zfile = zipfile.ZipFile("On_Time_On_Time_Performance_2017_1.zip")
@@ -29,11 +29,12 @@ columns_list=['Year', 'Quarter', 'Month' ,'DayofMonth' ,'DayOfWeek', 'FlightDate
  'SecurityDelay', 'LateAircraftDelay', 'FirstDepTime' ,'TotalAddGTime',
  'LongestAddGTime']
 
-df_itr = pd.read_csv(filecontent,dtype={'cancellationcode': str, 'div2airport': str,'div2tailnum':str},usecols=columns_list,iterator=True,chunksize=10000)
+df_itr=pd.read_csv(filecontent,dtype={'cancellationcode': str, 'div2airport': str,'div2tailnum':str},usecols=columns_list,iterator=True,chunksize=500)
 
 for chunk in df_itr:
  df = pd.DataFrame(data=chunk, index=None)
  df1=df.fillna(0)
- df1_bytes = df1.to_csv()
+ #df1_bytes = df1.to_csv(index = False)
+ df1_bytes = df1.to_json(orient='records')
  producer.send(topic, df1_bytes)
- time.sleep(2)
+ time.sleep(1)
