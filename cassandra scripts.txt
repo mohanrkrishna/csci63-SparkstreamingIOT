@@ -1,0 +1,28 @@
+
+CREATE KEYSPACE flightkeyspace WITH REPLICATION = { 'class':'SimpleStrategy', 'replication_factor':1};
+
+USE flightkeyspace; 
+
+CREATE TABLE flightiot (Year int,Quarter int,Month int,DayofMonth int,DayOfWeek int,FlightDate timestamp,UniqueCarrier text ,AirlineID int,Carrier text,TailNum varchar,FlightNum int ,OriginAirportID int,OriginAirportSeqID int,OriginCityMarketID int,Origin text,OriginCityName text, OriginState text,OriginStateFips int,OriginStateName text,OriginWac int, DestAirportID int, DestAirportSeqID int,DestCityMarketID int ,Dest text,DestCityName text, DestState text,DestStateFips int ,DestStateName text, DestWac int,CRSDepTime int, DepTime int,DepDelay int,DepDelayMinutes int ,DepDel15 int,DepartureDelayGroups int,DepTimeBlk varchar, TaxiOut int,WheelsOff int,WheelsOn int,TaxiIn int,CRSArrTime int,ArrTime int, ArrDelay int,ArrDelayMinutes int,ArrDel15 int,ArrivalDelayGroups int ,ArrTimeBlk varchar,Cancelled int,CancellationCode text,Diverted int,
+CRSElapsedTime int, ActualElapsedTime int,AirTime int,Flights int,Distance int,DistanceGroup int, CarrierDelay int, WeatherDelay int, NASDelay int,
+SecurityDelay int, LateAircraftDelay int,FirstDepTime int,TotalAddGTime int, LongestAddGTime int, 
+PRIMARY KEY ((UniqueCarrier ,FlightNum,FlightDate), Origin,Dest)
+);
+
+
+CREATE TABLE customers (id  int ,
+first_name text,
+last_name text,
+email varchar,
+Phone varchar,
+flightnum int,
+OriginAirportID int,
+DestAirportID int,
+PRIMARY KEY ((flightnum,email,OriginAirportID,Destairportid)));
+
+
+
+CREATE TABLE flightdelays (id  int ,first_name text,last_name text,email varchar,Phone varchar,flightnum int,FlightDate timestamp,Origin text,OriginAirportID int,OriginCityName text,
+DestAirportID int,OriginState text,dest text,DestCityName text, DestState text,DepTime int,DepDelay int,DepDelayMinutes int ,DepTimeBlk varchar,DepartureDelayGroups int,ArrTime int, ArrDelay int,
+ArrDelayMinutes int,ArrivalDelayGroups int ,ArrTimeBlk varchar,Cancelled int,CancellationCode text,Diverted int,AirTime int,Flights int,Distance int,DistanceGroup int, CarrierDelay int, 
+WeatherDelay int, NASDelay int,SecurityDelay int, LateAircraftDelay int, PRIMARY KEY ((Origin,flightnum,FlightDate), email,OriginCityName,Dest,DestCityName));
