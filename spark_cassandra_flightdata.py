@@ -45,7 +45,7 @@ flightdata = flightstream.map(lambda kv:kv[1])
 flightwindow = flightdata.window(2,2)
 
 customer = sql.read.format("org.apache.spark.sql.cassandra"). \
-           load(keyspace="flightkeyspace", table="customer").cache()
+           load(keyspace="flightkeyspace", table="customers").cache()
 
 customers_delay = flightwindow.transform(processdstream)
 
